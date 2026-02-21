@@ -8,6 +8,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\ToggleColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
@@ -26,9 +27,11 @@ class UserRolesTable
                     ->label('Role')
                     ->numeric()
                     ->sortable(),
-                IconColumn::make('ur_is_active')
-                    ->label('Active')
-                    ->boolean(),
+                // IconColumn::make('ur_is_active')
+                //     ->label('Active')
+                //     ->boolean(),
+                ToggleColumn::make('ur_is_active')
+                    ->label('Active'),
                 TextColumn::make('ur_created_ts')
                     ->label('Created at')
                     ->dateTime('M d, Y \@ h:ia')

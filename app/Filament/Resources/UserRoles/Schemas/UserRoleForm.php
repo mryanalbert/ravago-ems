@@ -29,6 +29,10 @@ class UserRoleForm
                             ->pluck('role_name', 'role_id');
                     })
                     ->preload()
+                    ->default(fn() => request()->query('role_id'))
+                    // Lock it so they can't change it, but keep it 'dehydrated' so it saves
+                    ->disabled(fn() => request()->has('role_id'))
+                    ->dehydrated()
                     ->searchable(false)
                     ->native(false)
                     ->live(),
@@ -62,9 +66,9 @@ class UserRoleForm
                             ->pluck('name', 'userId');
                     })
                     ->rules([
-                        fn(Get $get): Unique => Rule::unique('ems.user_roles', 'ur_user_id')
+                        fn(Get $get, $record): Unique => Rule::unique('ems.user_roles', 'ur_user_id')
                             ->where('ur_role_id', $get('ur_role_id'))
-                            ->ignore($get('ur_id')), // Ignores the current record if you are editing
+                            ->ignore($record?->ur_id, 'ur_id'), // Ignores the current record if you are editing
                     ])
                     ->validationMessages([
                         'unique' => 'This user already has this role assigned.',

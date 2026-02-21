@@ -48,7 +48,12 @@ class CustomLoginController extends Controller
         }
 
         // 2️⃣ Attempt login
-        $user = DbUserUsr::where('email', $request->email)->first();
+        $user = DbUserUsr::where('email', $request->email)
+            ->where('isActive', 1)
+            ->whereHas('userRoles', function ($query) {
+                $query->where('ur_is_active', 1);
+            })
+            ->first();
 
         if ($user && Hash::check($request->password, $user->userPassword)) {
             // SUCCESS: Clear the strikes
@@ -109,7 +114,12 @@ class CustomLoginController extends Controller
 
         try {
             $googleUser = Socialite::driver('google')->user();
-            $user = DbUserUsr::where('email', $googleUser->getEmail())->first();
+            $user = DbUserUsr::where('email', $googleUser->getEmail())
+                ->where('isActive', 1)
+                ->whereHas('userRoles', function ($query) {
+                    $query->where('ur_is_active', 1);
+                })
+                ->first();
 
             if (!$user) {
                 // Optional: Register a "hit" if they try to login with an unauthorized Google account
