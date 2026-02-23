@@ -42,7 +42,7 @@ class CustomLoginController extends Controller
                 : ceil($seconds / 60) . ' minute' . (ceil($seconds / 60) === 1 ? '' : 's')
                 . " ($seconds seconds)";
 
-            return redirect('/admin/login')->withErrors([
+            return redirect('/login')->withErrors([
                 'error' => "Too many login attempts. Please wait $timeMessage",
             ]);
         }
@@ -107,7 +107,7 @@ class CustomLoginController extends Controller
                 $timeMessage = $minutes . ' minute' . ($minutes === 1 ? '' : 's') . " ($seconds seconds)";
             }
 
-            return redirect('/admin/login')->withErrors([
+            return redirect('/login')->withErrors([
                 'error' => "Too many login attempts. Please wait $timeMessage",
             ]);
         }
@@ -126,7 +126,7 @@ class CustomLoginController extends Controller
                 // This prevents spammers from trying 100 different Google accounts.
                 RateLimiter::hit($key, 120);
 
-                return redirect('/admin/login')->withErrors([
+                return redirect('/login')->withErrors([
                     'error' => 'No account associated with this Google email. Attempts remaining: ' . RateLimiter::remaining($key, 3)
                 ]);
             }
@@ -142,7 +142,7 @@ class CustomLoginController extends Controller
         } catch (\Exception $e) {
             Log::error('Google login failed: ' . $e->getMessage());
 
-            return redirect('/admin/login')->withErrors([
+            return redirect('/login')->withErrors([
                 'error' => 'Failed to authenticate with Google.'
             ]);
         }

@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\Roles\Tables;
 
+use App\Filament\Resources\Roles\Pages\ViewRole;
+use App\Filament\Resources\Roles\RoleResource;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
@@ -20,11 +22,13 @@ class RolesTable
                 TextColumn::make('role_name')
                     ->searchable(),
             ])
+            // ->recordUrl(fn($record) => RoleResource::getUrl('view', ['record' => $record]))
             ->filters([
                 //
             ])
             ->recordActions([
-                ViewAction::make(),
+                ViewAction::make()
+                    ->slideOver(),
                 EditAction::make(),
             ])
             ->toolbarActions([

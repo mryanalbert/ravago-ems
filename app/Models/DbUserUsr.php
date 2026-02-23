@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 class DbUserUsr extends Authenticatable
 {
@@ -33,13 +34,23 @@ class DbUserUsr extends Authenticatable
         return $this->userPassword;
     }
 
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class, 'user_role');
-    }
-
     public function userRoles()
     {
         return $this->hasMany(UserRole::class, 'ur_user_id', 'userId');
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'user_roles');
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->userRoles()
+            ->with('roles')
+            ->get()
+            ->contains(function ($userRole) {
+                return $userRole->roles && ($userRole->roles->role_code === 'sa');
+            });
     }
 }

@@ -16,6 +16,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use UnitEnum;
 
 class RoleResource extends Resource
 {
@@ -24,6 +25,8 @@ class RoleResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $recordTitleAttribute = 'role_name';
+
+    protected static string | UnitEnum | null $navigationGroup = 'User Management';
 
     public static function form(Schema $schema): Schema
     {
@@ -52,7 +55,7 @@ class RoleResource extends Resource
         return [
             'index' => ListRoles::route('/'),
             'create' => CreateRole::route('/create'),
-            'view' => ViewRole::route('/{record}'),
+            // 'view' => ViewRole::route('/{record}'),
             'edit' => EditRole::route('/{record}/edit'),
         ];
     }
