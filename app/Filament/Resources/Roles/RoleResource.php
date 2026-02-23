@@ -6,7 +6,7 @@ use App\Filament\Resources\Roles\Pages\CreateRole;
 use App\Filament\Resources\Roles\Pages\EditRole;
 use App\Filament\Resources\Roles\Pages\ListRoles;
 use App\Filament\Resources\Roles\Pages\ViewRole;
-use App\Filament\Resources\Roles\RelationManagers\UserRolesRelationManager;
+use App\Filament\Resources\Roles\RelationManagers\UsersRelationManager;
 use App\Filament\Resources\Roles\Schemas\RoleForm;
 use App\Filament\Resources\Roles\Schemas\RoleInfolist;
 use App\Filament\Resources\Roles\Tables\RolesTable;
@@ -46,7 +46,7 @@ class RoleResource extends Resource
     public static function getRelations(): array
     {
         return [
-            UserRolesRelationManager::class
+            UsersRelationManager::class
         ];
     }
 
@@ -55,7 +55,7 @@ class RoleResource extends Resource
         return [
             'index' => ListRoles::route('/'),
             'create' => CreateRole::route('/create'),
-            // 'view' => ViewRole::route('/{record}'),
+            'view' => ViewRole::route('/{record}'),
             'edit' => EditRole::route('/{record}/edit'),
         ];
     }

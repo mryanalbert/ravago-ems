@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\DbUserUsr;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,11 +18,13 @@ class EnsureUserIsActive
     public function handle(Request $request, Closure $next): Response
     {
         // 1. Get a fresh instance from the DB to bypass session caching
-        $user = Auth::user()?->fresh();
+        $userAuth = Auth::user()?->fresh();
 
-        if (! $user) {
+        if (! $userAuth) {
             return redirect()->route('login');
         }
+
+        $user = DbUserUsr::find($userAuth->userId);
 
         // 2. Check if user is active
         if (! $user->isActive) {
@@ -29,9 +32,8 @@ class EnsureUserIsActive
         }
 
         // 3. Check if user has at least one active role
-        $hasActiveRole = $user->userRoles()
-            ->where('ur_is_active', 1)
-            ->exists();
+        $hasActiveRole = $user->roles()->exists();
+
 
         if (! $hasActiveRole) {
             return $this->terminateSession($request, 'You have no active role assigned.');

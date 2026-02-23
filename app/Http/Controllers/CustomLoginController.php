@@ -17,6 +17,10 @@ class CustomLoginController extends Controller
 {
     public function index()
     {
+        if (Auth::check() || Filament::auth()->check()) {
+            return redirect(Filament::getPanel('admin')->getUrl());
+        }
+
         return view('login');
     }
 
@@ -49,10 +53,8 @@ class CustomLoginController extends Controller
 
         // 2️⃣ Attempt login
         $user = DbUserUsr::where('email', $request->email)
-            ->where('isActive', 1)
-            ->whereHas('userRoles', function ($query) {
-                $query->where('ur_is_active', 1);
-            })
+            ->where('isActive', 1)             // column in DbUserUsr
+            ->whereHas('roles')                // only checks if the user has at least one role
             ->first();
 
         if ($user && Hash::check($request->password, $user->userPassword)) {
@@ -115,10 +117,8 @@ class CustomLoginController extends Controller
         try {
             $googleUser = Socialite::driver('google')->user();
             $user = DbUserUsr::where('email', $googleUser->getEmail())
-                ->where('isActive', 1)
-                ->whereHas('userRoles', function ($query) {
-                    $query->where('ur_is_active', 1);
-                })
+                ->where('isActive', 1)             // column in DbUserUsr
+                ->whereHas('roles')                // only checks if the user has at least one role
                 ->first();
 
             if (!$user) {

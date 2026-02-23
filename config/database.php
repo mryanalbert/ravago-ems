@@ -30,20 +30,6 @@ return [
     */
 
     'connections' => [
-        'dbusers' => [
-            'driver' => 'mysql',
-            'host' => env('DBUSERS_HOST', '172.25.224.1'),
-            'port' => env('DBUSERS_PORT', '3306'),
-            'database' => env('DBUSERS_DATABASE', 'dbusers'),
-            'username' => env('DBUSERS_USERNAME', 'root'),
-            'password' => env('DBUSERS_PASSWORD', ''),
-            'charset' => 'utf8mb4',
-            'collation' => 'utf8mb4_unicode_ci',
-            'prefix' => '',
-            'strict' => true,
-            'engine' => null,
-        ],
-
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DB_URL'),

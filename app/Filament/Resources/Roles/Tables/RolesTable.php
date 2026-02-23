@@ -22,7 +22,7 @@ class RolesTable
                 TextColumn::make('role_name')
                     ->searchable(),
             ])
-            // ->recordUrl(fn($record) => RoleResource::getUrl('view', ['record' => $record]))
+            ->recordUrl(fn($record) => RoleResource::getUrl('view', ['record' => $record]))
             ->filters([
                 //
             ])

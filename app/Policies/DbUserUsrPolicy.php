@@ -3,11 +3,9 @@
 namespace App\Policies;
 
 use App\Models\DbUserUsr;
-use App\Models\UserRole;
 use Illuminate\Auth\Access\Response;
-use Illuminate\Support\Facades\DB;
 
-class UserRolePolicy
+class DbUserUsrPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -20,7 +18,7 @@ class UserRolePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(DbUserUsr $dbUserUsr, UserRole $dbUserUsrRole): bool
+    public function view(DbUserUsr $dbUserUsr): bool
     {
         return $dbUserUsr->isSuperAdmin();
     }
@@ -36,7 +34,7 @@ class UserRolePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(DbUserUsr $dbUserUsr, UserRole $dbUserUsrRole): bool
+    public function update(DbUserUsr $dbUserUsr): bool
     {
         return $dbUserUsr->isSuperAdmin();
     }
@@ -44,7 +42,7 @@ class UserRolePolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(DbUserUsr $dbUserUsr, UserRole $dbUserUsrRole): bool
+    public function delete(DbUserUsr $dbUserUsr): bool
     {
         return $dbUserUsr->isSuperAdmin();
     }
@@ -52,7 +50,7 @@ class UserRolePolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(DbUserUsr $dbUserUsr, UserRole $dbUserUsrRole): bool
+    public function restore(DbUserUsr $dbUserUsr): bool
     {
         return $dbUserUsr->isSuperAdmin();
     }
@@ -60,7 +58,7 @@ class UserRolePolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(DbUserUsr $dbUserUsr, UserRole $dbUserUsrRole): bool
+    public function forceDelete(DbUserUsr $dbUserUsr): bool
     {
         return $dbUserUsr->isSuperAdmin();
     }

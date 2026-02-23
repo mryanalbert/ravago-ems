@@ -2,19 +2,17 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
 
 class DbUserUsr extends Authenticatable
 {
-    protected $connection = 'dbusers';
-    protected $table = 'usr';
+    protected $table = 'dbusers.usr';
     protected $primaryKey = 'userId';
     public $incrementing = false;
     protected $keyType = 'string';
-
-    protected $fillable = ['name', 'email', 'password'];
 
     public $timestamps = false;
 
@@ -34,23 +32,20 @@ class DbUserUsr extends Authenticatable
         return $this->userPassword;
     }
 
-    public function userRoles()
-    {
-        return $this->hasMany(UserRole::class, 'ur_user_id', 'userId');
-    }
-
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'user_roles');
+        return $this->belongsToMany(Role::class, 'ems.user_roles', 'ur_user_id', 'ur_role_id');
+    }
+
+    public function scopeActiveWithRoles(Builder $query): Builder
+    {
+        return $query->where('isActive', true)->whereHas('roles');
     }
 
     public function isSuperAdmin(): bool
     {
-        return $this->userRoles()
-            ->with('roles')
-            ->get()
-            ->contains(function ($userRole) {
-                return $userRole->roles && ($userRole->roles->role_code === 'sa');
-            });
+        return $this->roles()
+            ->where('role_code', 'sa')
+            ->exists();
     }
 }
