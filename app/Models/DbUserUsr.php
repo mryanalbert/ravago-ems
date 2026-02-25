@@ -34,7 +34,7 @@ class DbUserUsr extends Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'ems.user_roles', 'ur_user_id', 'ur_role_id');
+        return $this->belongsToMany(Role::class, 'user_roles', 'ur_user_id', 'ur_role_id');
     }
 
     public function scopeActiveWithRoles(Builder $query): Builder

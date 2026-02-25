@@ -29,9 +29,9 @@ class DbUserUsrResource extends Resource
 
     protected static string | UnitEnum | null $navigationGroup = 'User Management';
 
-    protected static ?string $navigationLabel = 'Role Assignments';
+    protected static ?string $navigationLabel = 'Users';
 
-    protected static ?string $modelLabel = 'Role Assignments';
+    protected static ?string $modelLabel = 'Users';
 
     public static function getEloquentQuery(): Builder
     {

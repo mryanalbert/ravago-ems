@@ -3,9 +3,10 @@
 namespace App\Policies;
 
 use App\Models\DbUserUsr;
+use App\Models\UserRole;
 use Illuminate\Auth\Access\Response;
 
-class DbUserUsrPolicy
+class UserRolePolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -18,7 +19,7 @@ class DbUserUsrPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(DbUserUsr $dbUserUsr): bool
+    public function view(DbUserUsr $dbUserUsr, UserRole $dbUserUsrRole): bool
     {
         return $dbUserUsr->isSuperAdmin();
     }
@@ -28,13 +29,13 @@ class DbUserUsrPolicy
      */
     public function create(DbUserUsr $dbUserUsr): bool
     {
-        return false;
+        return $dbUserUsr->isSuperAdmin();
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(DbUserUsr $dbUserUsr): bool
+    public function update(DbUserUsr $dbUserUsr, UserRole $dbUserUsrRole): bool
     {
         return $dbUserUsr->isSuperAdmin();
     }
@@ -42,25 +43,25 @@ class DbUserUsrPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(DbUserUsr $dbUserUsr): bool
+    public function delete(DbUserUsr $dbUserUsr, UserRole $dbUserUsrRole): bool
     {
-        return false;
+        return $dbUserUsr->isSuperAdmin();
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(DbUserUsr $dbUserUsr): bool
+    public function restore(DbUserUsr $dbUserUsr, UserRole $dbUserUsrRole): bool
     {
-        return false;
+        return $dbUserUsr->isSuperAdmin();
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(DbUserUsr $dbUserUsr): bool
+    public function forceDelete(DbUserUsr $dbUserUsr, UserRole $dbUserUsrRole): bool
     {
-        return false;
+        return $dbUserUsr->isSuperAdmin();
     }
 
     /**
@@ -68,7 +69,7 @@ class DbUserUsrPolicy
      */
     public function deleteAny(DbUserUsr $dbUserUsr): bool
     {
-        return false;
+        return $dbUserUsr->isSuperAdmin();
     }
 
     /**
@@ -76,7 +77,7 @@ class DbUserUsrPolicy
      */
     public function restoreAny(DbUserUsr $dbUserUsr): bool
     {
-        return false;
+        return $dbUserUsr->isSuperAdmin();
     }
 
     /**
@@ -84,6 +85,6 @@ class DbUserUsrPolicy
      */
     public function forceDeleteAny(DbUserUsr $dbUserUsr): bool
     {
-        return false;
+        return $dbUserUsr->isSuperAdmin();
     }
 }

@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Role extends Model
 {
-    // protected $connection = 'mysql';
     protected $table = 'ems.roles';
     protected $primaryKey = 'role_id';
 
@@ -16,6 +15,6 @@ class Role extends Model
 
     public function users()
     {
-        return $this->belongsToMany(DbUserUsr::class, 'ems.user_roles', 'ur_role_id', 'ur_user_id');
+        return $this->belongsToMany(DbUserUsr::class, 'user_roles', 'ur_role_id', 'ur_user_id');
     }
 }
